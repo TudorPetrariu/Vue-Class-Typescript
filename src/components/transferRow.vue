@@ -21,7 +21,7 @@
           <span class="second-address">46th Ave, Woodside, NY 11101 Woodside</span>
           <div :style="`border: 2px solid ${randomColors}`" class="circle bottom-circle" />
         </div>
-        <!-- <span v-if="transfer.forgottenProperty">{{ transfer.forgottenProperty }}</span> -->
+          <span style="color:red; font-weight:600; font-size:15px;" v-if="transfer.forgottenProperty">{{ transfer.forgottenProperty }}</span>
       </div>
       <div class="transfer--footer">
         <div>
