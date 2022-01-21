@@ -17,6 +17,9 @@ export default new Vuex.Store({
   mutations: {
     setTableData(state, data) {
       state.tableResources = data
+    },
+    setSecurityClass(state, data: TableData): void {
+      state.tableResources = [...state.tableResources, data]
     }
   },
   actions: {
@@ -28,5 +31,13 @@ export default new Vuex.Store({
         console.log('Cannot getTableData', error);
       }
     },
+    async addSecurityClass({ commit }, securityClass) {
+      try {
+        const { data }: { data: TableData[] } = await api.post(`/resources`, securityClass)
+        commit('setSecurityClass', data)
+      } catch (error) {
+        console.log('Cannot addSecurityClass', error);
+      }
+    }
   },
 });
