@@ -7,7 +7,7 @@ This is a Vue 2 project with TS using these libraries for component setup:
 ```vue-property-decorator```
 
 
-## Assignments
+## TODOS
 
 ### table row
 On the "Home" page is a table, add a row to this table that displays the totals of the other rows.
@@ -33,15 +33,33 @@ THE BAD
 
 ### Add a security class
 On the home page create a button that opens a modal window that contains a form. This form should allow you to add a security class to the table, also updating the totals.
+### Solution
+I have leveraged again the power of Buefy where I have made use of the input fields with a bit of pre-design.
+The registering modal is triggered onClick from the Home where onSubmit triggers the POST method.
+
+THE GOOD
+- minimal security class name validator
+- async POST method
+THE BAD
+- took time for buefy docs
+- no validation for number input fields
 
 ### Transfer search
 On the Transfers page you find a list of financial transfers with a search bar. Make the transferlist searchable by "recordDate".
+### Solution
+The sorted array was using the incorrect search index where a prop validator is required allowing the function to throw undefined.
 
 ### Style the transferRow.vue component
 Rework the style for this component, using this design. Make it look as close as possible.
-https://i.pinimg.com/736x/29/bc/e5/29bce59f6cdf71eb840d939ba05deff1--best-ui-design-app-ui-design.jpg 
-If you for whatever reason do not have a similar result to the image, please let us know when you send in the work.
 
+THE GOOD
+- good scss practice
+- mobile friendly
+THE BAD
+- no tailwind
+- random color generator is copied
+- not really desktop friendly
+- ideally the scoped component css syntax lives in a dedicated file
 ### Fix the update transfers button
 Something is going wrong with this button, fix it and explain why it broke in the comments.
 
@@ -68,6 +86,10 @@ npm run build
 ```
 npm run lint
 ```
+### Docs
+json-server: https://github.com/typicode/json-server
+axios: https://github.com/axios/axios
+
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
