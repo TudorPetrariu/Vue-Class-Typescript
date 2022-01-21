@@ -1,17 +1,26 @@
 <template>
   <div class="home">
     <h1>This is a table with some important data</h1>
-    <b-table :data="tableResources" :columns="columns">
-      <template #footer>
-        <th key-attribute="footer-label">
-          <span>TOTALS</span>
-        </th>
-        <transferRowFooter key-attribute="totalAuthorizedAmount" :footer-cell-text="totalAuthorizedAmount" />
-        <transferRowFooter key-attribute="totalIssuedAmount" :footer-cell-text="totalIssuedAmount" />
-        <transferRowFooter key-attribute="totalAuthorizedCapital" :footer-cell-text="totalAuthorizedCapital" />
-        <transferRowFooter key-attribute="totalIssuedCapital" :footer-cell-text="totalIssuedCapital" />
-      </template>
-    </b-table>
+    <b-button @click="onAddSecurityClass" size="is-small" class="btn--add" icon-left="plus">
+      Security Class
+    </b-button>
+    <div v-if="tableResources">
+      <b-table :data="tableResources" :columns="columns">
+        <template #footer>
+          <th key-attribute="footer-label">
+            <span>TOTALS</span>
+          </th>
+          <transferRowFooter key-attribute="totalAuthorizedAmount" :footer-cell-text="totalAuthorizedAmount"
+          />
+          <transferRowFooter key-attribute="totalIssuedAmount" :footer-cell-text="totalIssuedAmount"
+          />
+          <transferRowFooter key-attribute="totalAuthorizedCapital" :footer-cell-text="totalAuthorizedCapital"
+          />
+          <transferRowFooter key-attribute="totalIssuedCapital" :footer-cell-text="totalIssuedCapital"
+          />
+        </template>
+      </b-table>
+    </div>
   </div>
 </template>
 
@@ -19,7 +28,8 @@
 import { Component, Vue } from "vue-property-decorator";
 import { mapActions, mapGetters } from "vuex";
 import { TableData } from "@/types/types";
-import { totalAmount } from "../../utils/helperFunctions";
+import { totalAmount } from "@/../utils/helperFunctions";
+import addSecurityClassModal from "@/components/modals/addSecurityClassModal.vue";
 import transferRowFooter from "@/components/transferRowFooter.vue";
 
 @Component({
@@ -33,15 +43,14 @@ import transferRowFooter from "@/components/transferRowFooter.vue";
   },
 })
 export default class Home extends Vue {
-    /* eslint-disable @typescript-eslint/no-explicit-any */
-    // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+  /* eslint-disable @typescript-eslint/no-explicit-any */
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   async created() {
     await this.getTableData();
   }
   getTableData!: () => any;
+  addSecurityClass!: () => any;
   tableResources!: () => any;
-  
-  tableData: TableData[] = [];
   columns = [
     {
       label: "Security class",
@@ -65,6 +74,31 @@ export default class Home extends Vue {
     },
   ];
   loading = false;
+
+  onAddSecurityClass(): void {
+    this.$buefy.modal.open({
+      parent: this,
+      component: addSecurityClassModal,
+      hasModalCard: true,
+      width: 900,
+      trapFocus: true,
+      scroll: "keep",
+      ariaModal: true,
+      customClass: "card-form-modal",
+      canCancel: ["outside"],
+      props: {
+        securityClassNames: this.securityClassNames,
+      },
+      events: {
+        submit: (record: TableData): void => {
+          this.addSecurityClass(record);
+        },
+      },
+    });
+  }
+  get securityClassNames(): Array<string> {
+    return this.tableResources.map((securityName: string) => securityName.name);
+  }
   get totalAuthorizedAmount(): number {
     return totalAmount(this.tableResources, "authorizedAmount");
   }
@@ -77,68 +111,16 @@ export default class Home extends Vue {
   get totalIssuedCapital(): number {
     return totalAmount(this.tableResources, "issuedCapital");
   }
-
-  // mounted works fine if your ide complains about it
-  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-  // mounted() {
-  //   this.getData()
-  //     .then((data: TableData[]) => {
-  //       this.loading = true;
-  //       return data.map((dataItem: TableData) => {
-  //         return {
-  //           ...dataItem,
-  //           randomNumber: Math.random(),
-  //         };
-  //       });
-  //     })
-  //     .then((data: TableData[]) => {
-  //       this.tableData = data;
-  //       this.loading = false;
-  //     })
-  //     .catch((error) => {
-  //       console.log(error, "This is not good");
-  //     });
-  // }
-
-  // async getData(): Promise<TableData[]> {
-  //   return [
-  //     {
-  //       id: "42f2462d-49d0-4e91-8fe1-de2e656b0f06",
-  //       name: "Series A",
-  //       nominalValue: 5,
-  //       authorizedAmount: 1500,
-  //       issuedAmount: 500,
-  //       authorizedCapital: 7550,
-  //       issuedCapital: 2500,
-  //     },
-  //     {
-  //       id: "42f2462d-49d0-4e91-8fe1-de2e656b0f06",
-  //       name: "Series B",
-  //       nominalValue: 10,
-  //       authorizedAmount: 15000,
-  //       issuedAmount: 5000,
-  //       authorizedCapital: 150000,
-  //       issuedCapital: 50000,
-  //     },
-  //     {
-  //       id: "fd78c11b-e3d2-455a-99b0-49907a75c463",
-  //       name: "Series C",
-  //       nominalValue: 1,
-  //       authorizedAmount: 96876,
-  //       issuedAmount: 61760,
-  //       authorizedCapital: 96876,
-  //       issuedCapital: 61760,
-  //     },
-  //     {
-  //       id: "d8654cb0-8986-4fbc-b969-025e514cb934",
-  //       name: "Series D",
-  //       nominalValue: 1,
-  //       authorizedAmount: 10110,
-  //       issuedAmount: 1100,
-  //       authorizedCapital: 10110,
-  //       issuedCapital: 1100,
-  //     },
-  //   ];
-  // }
 }
 </script>
+<style scoped lang="scss">
+.btn--add {
+  background: rgb(13, 189, 174);
+  color: rgb(255, 255, 255);
+  &:hover {
+    background: rgb(255, 255, 255);
+    color: rgb(13, 189, 174);
+    border: 2px solid rgb(13, 189, 174);
+  }
+}
+</style>
