@@ -36,10 +36,10 @@ export default class Transfers extends Vue {
       // custom search, should be improved upon
       const searchArray: Transaction[] = [];
       this.transfers.forEach((transfer: Transaction) => {
-        if (
-          transfer.recordDate?.toLowerCase().includes(this.searchTerms.toLowerCase())
-        ) {
-          searchArray.push(transfer);
+       if (
+         transfer.recordDate?.toLowerCase().includes(this.searchTerms.toLowerCase())
+       ) { 
+         searchArray.push(transfer);       
         }
       });
       return searchArray;
@@ -48,8 +48,13 @@ export default class Transfers extends Vue {
   }
 
   updateTransfers(): void {
-    this.transfers.forEach((transfer) => {
-     transfer.forgottenProperty = `Important data: ${(Math.random() * 100000000).toString().slice(1, 8)}`;
+    this.transfers.forEach((transfer: Transaction) => {
+      const forgottenPropertyValue = `Important data: ${(Math.random() * 100000000).toString().slice(1, 8)}`;
+      Vue.set(
+        transfer,
+        "forgottenProperty",
+        forgottenPropertyValue
+      );
     });
 
     this.transfers[0] = {
