@@ -12,6 +12,10 @@ This is a Vue 2 project with TS using these libraries for component setup:
 ### table row
 On the "Home" page is a table, add a row to this table that displays the totals of the other rows.
 
+I have used as approaced here the computed property to return the sum of each row with the help of the util function totalSum.
+In order to render the data I have leveraged Buefy and used an imported footer component.
+
+
 ### Async/Await
 In the mounted function the data for the table is being fetched, edited and placed in the tableData property with a promise chain. 
 Rewrite this function but instead of chaining promises use async/await to do the exact same. 

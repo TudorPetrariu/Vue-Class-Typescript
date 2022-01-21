@@ -1,15 +1,30 @@
 <template>
   <div class="home">
     <h1>This is a table with some important data</h1>
-    <b-table :data="tableData" :columns="columns"></b-table>
+    <b-table :data="tableData" :columns="columns">
+      <template #footer>
+        <th key-attribute="footer-label">
+          <span>TOTALS</span>
+        </th>
+        <transferRowFooter key-attribute="totalAuthorizedAmount" :footer-cell-text="totalAuthorizedAmount" />
+        <transferRowFooter key-attribute="totalIssuedAmount" :footer-cell-text="totalIssuedAmount" />
+        <transferRowFooter key-attribute="totalAuthorizedCapital" :footer-cell-text="totalAuthorizedCapital" />
+        <transferRowFooter key-attribute="totalIssuedCapital" :footer-cell-text="totalIssuedCapital" />
+      </template>
+    </b-table>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import { TableData } from "@/types/types";
+import { totalAmount } from "../../utils/helperFunctions";
+import transferRowFooter from "@/components/transferRowFooter.vue";
 
-@Component
+@Component({
+  name: "Home",
+  components: { transferRowFooter },
+})
 export default class Home extends Vue {
   tableData: TableData[] = [];
   columns = [
@@ -35,6 +50,18 @@ export default class Home extends Vue {
     },
   ];
   loading = false;
+  get totalAuthorizedAmount(): number {
+    return totalAmount(this.tableData, "authorizedAmount");
+  }
+  get totalIssuedAmount(): number {
+    return totalAmount(this.tableData, "issuedAmount");
+  }
+  get totalAuthorizedCapital(): number {
+    return totalAmount(this.tableData, "authorizedCapital");
+  }
+  get totalIssuedCapital(): number {
+    return totalAmount(this.tableData, "issuedCapital");
+  }
 
   // mounted works fine if your ide complains about it
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
