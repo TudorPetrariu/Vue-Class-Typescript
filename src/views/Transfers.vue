@@ -6,14 +6,14 @@
       <input v-model="searchTerms" />
     </label>
     <div>
-      <button class="edit-btn" @click="updateTransfers">
-        Update transfers
-      </button>
-      <transfer-row
-        :key="transfer.transactionIdentifier"
-        v-for="transfer in searchedTransfers"
-        :transfer="transfer"
-      />
+      <button class="edit-btn" @click="updateTransfers">Update transfers</button>
+      <div class="single-transfer">
+        <transfer-row
+          v-for="transfer in searchedTransfers"
+          :key="transfer.transactionIdentifier"
+          :transfer="transfer"
+        />
+      </div>
     </div>
   </div>
 </template>
@@ -49,7 +49,7 @@ export default class Transfers extends Vue {
 
   updateTransfers(): void {
     this.transfers.forEach((transfer) => {
-      transfer.forgottenProperty = `Important data: ${(Math.random() * 100000000).toString().slice(1, 8)}`;
+     transfer.forgottenProperty = `Important data: ${(Math.random() * 100000000).toString().slice(1, 8)}`;
     });
 
     this.transfers[0] = {
@@ -78,5 +78,12 @@ export default class Transfers extends Vue {
 <style scoped lang="scss">
 .edit-btn {
   margin: 2rem;
+}
+.transfers {
+  background: rgba(83, 90, 116, 255);
+}
+.single-transfer {
+  overflow-y: auto;
+  height: 100vh;
 }
 </style>
