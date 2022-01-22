@@ -13,7 +13,7 @@ This is a Vue 2 project with TS using these libraries for component setup:
 On the "Home" page is a table, add a row to this table that displays the totals of the other rows.
 ### Solution
 I have used as approaced here the computed property to return the sum of each row with the help of the util function totalSum.
-In order to render the data I have leveraged Buefy and used an imported footer component.
+In order to render the data I have leveraged Buefy and used an imported a footer component.
 ## THE BAD
 - ideally business logic is not exposed in FE.
 --
@@ -49,10 +49,10 @@ The registering modal is triggered onClick from the Home where onSubmit triggers
 ### Transfer search
 On the Transfers page you find a list of financial transfers with a search bar. Make the transferlist searchable by "recordDate".
 ### Solution
-The sorted array was using the incorrect search index where a prop validator is required allowing the function to throw undefined.
+The sorted array was using the incorrect search index where a prop validator is required allowing the function to throw undefined if the property exists instead of throwing and exception.
 
 ### Style the transferRow.vue component
-Rework the style for this component, using this design. Make it look as close as possible.
+Rework the style for this component, using this design.
 
 ## THE GOOD
 - good scss practice
@@ -64,7 +64,8 @@ Rework the style for this component, using this design. Make it look as close as
 - ideally the scoped component css syntax lives in a dedicated file
 ### Fix the update transfers button
 Something is going wrong with this button, fix it and explain why it broke in the comments.
-
+### Solution
+https://vuejs.org/v2/guide/reactivity.html#For-Arrays
 ## Project setup
 ```
 npm install
